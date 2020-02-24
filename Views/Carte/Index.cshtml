@@ -45,11 +45,12 @@
         {
             <text>
         villes.push({
-            "name": "@ville.commune",
+            "name": "@ville.name",
             "lat": "@ville.lat",
             "lon": "@ville.lng",
             "adresse" : "@ville.address",
-            "available_bikes":"@ville.available_bikes"
+            "available_bikes": "@ville.available_bikes",
+            "available_stands": "@ville.available_bike_stands"
         });
             </text>
         };
@@ -79,7 +80,7 @@
 			popupAnchor: [-3, -76],
 		});
 		var marker = L.marker([villes[ville].lat, villes[ville].lon], { icon: myIcon }); // pas de addTo(macarte), l'affichage sera géré par la bibliothèque des clusters
-        marker.bindPopup(villes[ville].adresse + '<br>Velovs disponibles : ' + villes[ville].available_bikes + '<br>Commune : ' + villes[ville].name);
+        marker.bindPopup(villes[ville].adresse + '<br>Velovs disponibles : ' + villes[ville].available_bikes + '<br>Places disponibles : ' + villes[ville].available_stands);
         console.log(ville);
 		markerClusters.addLayer(marker); // Nous ajoutons le marqueur aux groupes
 		markers.push(marker); // Nous ajoutons le marqueur à la liste des marqueurs
