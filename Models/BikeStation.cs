@@ -52,10 +52,15 @@ namespace BikeWatcher.Models
             var deserializedJSON = await JsonSerializer.DeserializeAsync<RootObject>(await streamTask);
             return deserializedJSON.values;
         }
-        public int SortByNumberAscending(int number1, int number2)
+        public int SortByNumberAscending(string number1, string number2)
         {
 
-            return number1.CompareTo(number2);
+            return Int32.Parse(number1).CompareTo(Int32.Parse(number2));
         }
+        //public static async task<> getbikestationscoordonates()
+        //{
+        //    var tst = await processbikestations();
+        //    return tst.lat;
+        //}
     }
 }

@@ -17,8 +17,10 @@ namespace BikeWatcher.Controllers
         public async Task<IActionResult> Index()
         {
             var bikeStations = await BikeStation.ProcessBikeStations();
-            bikeStations.Sort((x, y) => x.number.CompareTo(y.number));
+            //bikeStations.Sort((x, y) => Int32.Parse(x.number).CompareTo(Int32.Parse(y.number)));
+            bikeStations.Sort((x, y) => x.SortByNumberAscending(x.number, y.number));
             ViewBag.AllBikeStations = bikeStations;
+            
             
             return View();
         }
