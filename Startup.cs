@@ -21,8 +21,8 @@ public class Startup
         services.AddDbContext<BikeWatcherIdentityDbContext>(options =>
             options.UseSqlServer(
                 Configuration.GetConnectionString("BikeWatcherIdentityDbContextConnection")));
-        services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-            .AddEntityFrameworkStores<BikeWatcherIdentityDbContext>();
+        //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+        //    .AddEntityFrameworkStores<BikeWatcherIdentityDbContext>();
         services.AddControllersWithViews();
         services.AddRazorPages();
     }

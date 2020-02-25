@@ -29,18 +29,15 @@
     <script type='text/javascript' src='https://unpkg.com/leaflet.markercluster@1.3.0/dist/leaflet.markercluster.js'></script>
     <script type="text/javascript">
         // On initialise la latitude et la longitude de Paris (centre de la carte)
-        var lat = 48.852969;
-        var lon = 2.349903;
+
+        var lat = 48.8534;
+        var lon = 2.3488;
+
         var macarte = null;
         var markerClusters;
+
         var villes = [];// Servira à stocker les groupes de marqueurs
-        // Nous initialisons une liste de marqueurs
-        //var villes = {
-        //    "Paris": { "lat": 48.852969, "lon": 2.349903 },
-        //    "Brest": { "lat": 48.383, "lon": -4.500 },
-        //    "Quimper": { "lat": 48.000, "lon": -4.100 },
-        //    "Bayonne": { "lat": 43.500, "lon": -1.467 }
-        //};
+
         @foreach(var ville in data)
         {
             <text>
@@ -57,6 +54,7 @@
 
         // Fonction d'initialisation de la carte
         function initMap() {
+
             var markers = []; // Nous initialisons la liste des marqueurs
 	// Nous définissons le dossier qui contiendra les marqueurs
 	var iconBase = 'http://localhost/carte/icons/';
@@ -69,7 +67,7 @@
 		attribution: 'données © OpenStreetMap/ODbL - rendu OSM France',
 		minZoom: 1,
 		maxZoom: 20
-	}).addTo(macarte);
+    }).addTo(macarte);
 	// Nous parcourons la liste des villes
 	for (ville in villes) {
 		// Nous définissons l'icône à utiliser pour le marqueur, sa taille affichée (iconSize), sa position (iconAnchor) et le décalage de son ancrage (popupAnchor)
@@ -78,21 +76,28 @@
 			iconSize: [50, 50],
 			iconAnchor: [25, 50],
 			popupAnchor: [-3, -76],
-		});
+        });
+                    
 		var marker = L.marker([villes[ville].lat, villes[ville].lon], { icon: myIcon }); // pas de addTo(macarte), l'affichage sera géré par la bibliothèque des clusters
         marker.bindPopup(villes[ville].adresse + '<br>Velovs disponibles : ' + villes[ville].available_bikes + '<br>Places disponibles : ' + villes[ville].available_stands);
-        console.log(ville);
 		markerClusters.addLayer(marker); // Nous ajoutons le marqueur aux groupes
-		markers.push(marker); // Nous ajoutons le marqueur à la liste des marqueurs
+        markers.push(marker); // Nous ajoutons le marqueur à la liste des marqueurs
+        
 	}
-	var group = new L.featureGroup(markers); // Nous créons le groupe des marqueurs pour adapter le zoom
-	macarte.fitBounds(group.getBounds().pad(0.5)); // Nous demandons à ce que tous les marqueurs soient visibles, et ajoutons un padding (pad(0.5)) pour que les marqueurs ne soient pas coupés
-	macarte.addLayer(markerClusters);
+        var group = new L.featureGroup(markers); // Nous créons le groupe des marqueurs pour adapter le zoom
+	    //macarte.fitBounds(group.getBounds().pad(0.5)); // Nous demandons à ce que tous les marqueurs soient visibles, et ajoutons un padding (pad(0.5)) pour que les marqueurs ne soient pas coupés
+	    macarte.addLayer(markerClusters);
     }
         
         window.onload = function () {
-            // Fonction d'initialisation qui s'exécute lorsque le DOM est chargé
-            initMap();
+            //Fonction d'initialisation qui s'exécute lorsque le DOM est chargé
+            if ("geolocation" in navigator) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    lat = position.coords.latitude;
+                    lon = position.coords.longitude;
+                    initMap();
+                }, () => { initMap(); });
+            }
         };
     </script>
 </body>
