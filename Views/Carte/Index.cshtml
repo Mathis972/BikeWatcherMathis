@@ -79,7 +79,7 @@
         });
                     
 		var marker = L.marker([stations[station].lat, stations[station].lon], { icon: myIcon }); // pas de addTo(macarte), l'affichage sera géré par la bibliothèque des clusters
-        marker.bindPopup(stations[station].adresse + '<br>Velovs disponibles : ' + stations[station].available_bikes + '<br>Places disponibles : ' + stations[station].available_stands);
+        marker.bindPopup(stations[station].name + '<br>Velovs disponibles : ' + stations[station].available_bikes + '<br>Places disponibles : ' + stations[station].available_stands);
 		markerClusters.addLayer(marker); // Nous ajoutons le marqueur aux groupes
         markers.push(marker); // Nous ajoutons le marqueur à la liste des marqueurs
         
