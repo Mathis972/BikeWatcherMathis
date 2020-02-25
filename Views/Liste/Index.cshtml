@@ -8,6 +8,7 @@
 <div class="text-center">
     <h1 class="display-4">Liste</h1>
 </div>
+<a href="/Liste?ville=Bordeaux">Clique pour les velov de Bordeaux</a>
 <div class="container">
     <div class="row row-cols-1 row-cols-md-3">
         @foreach (var bikeStation in data)
@@ -15,13 +16,29 @@
             <div class="col mb-4">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">N° @bikeStation.number</h5>
-                        <p class="card-text">@bikeStation.address</p>
-                        <button class="btn btn-primary">@bikeStation.available_bikes velov</button>
+                        <h5 class="card-title">@bikeStation.name</h5>
+                        <button class="btn btn-primary">@bikeStation.available_bikes / @bikeStation.bike_stands velovs disponibles</button>
                     </div>
                 </div>
             </div>
         }
     </div>
 </div>
+<script type="text/javascript">
+    window.onload = function () {
+            //Fonction d'initialisation qui s'exécute lorsque le DOM est chargé
+            if ("geolocation" in navigator) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    lat = position.coords.latitude;
+                    lon = position.coords.longitude;
+
+                    if (window.location.search) {
+                        return;
+                    } else {
+                        window.location.replace("\Liste?lat=" + lat + "&lon=" + lon);
+                    }
+                });
+            }
+        };
+</script>
 

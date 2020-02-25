@@ -7,22 +7,36 @@ using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Net.Http;
 using BikeWatcher.Models;
+using BikeWatcher.Repository;
 using System.Diagnostics;
+using BikeWatcher.Utils;
 
 namespace BikeWatcher.Controllers
 {
     public class ListeController : Controller
     {
-        
-        public async Task<IActionResult> Index()
+        public const float parisLat = 48.8f, parisLon = 2.3f;
+        private const string defaultString = "Lyon";
+        public static float lat, lon;
+        public async Task<IActionResult> Index(float lat = parisLat, float lon = parisLon, string ville = defaultString)
         {
-            var bikeStations = await BikeStation.ProcessBikeStations();
-            //bikeStations.Sort((x, y) => Int32.Parse(x.number).CompareTo(Int32.Parse(y.number)));
-            bikeStations.Sort((x, y) => x.SortByNumberAscending(x.number, y.number));
-            ViewBag.AllBikeStations = bikeStations;
-            
-            
+            if (ville == "Lyon")
+            {
+                var bikeStations = await RepositoryBikeStations.ProcessBikeStations("https://download.data.grandlyon.com/ws/rdata/jcd_jcdecaux.jcdvelov/all.json");
+                ListeController.lat = lat;
+                ListeController.lon = lon;
+                bikeStations.Sort();
+                ViewBag.AllBikeStations = bikeStations;
+            }
+            else if (ville == "Bordeaux")
+            {
+                var bikeStations = await RepositoryBikeStations.ProcessBikeStationsBdx("https://api.alexandredubois.com/vcub-backend/vcub.php");
+                //bikeStations.Sort((x, y) => x.SortByNumberAscending(x.number, y.number));
+                ViewBag.AllBikeStations = bikeStations;
+            }
+
             return View();
+            
         }
     }
 }

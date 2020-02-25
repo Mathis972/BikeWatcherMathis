@@ -19,8 +19,8 @@ namespace BikeWatcher.Areas.Identity
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("BikeWatcherIdentityDbContextConnection")));
 
-                services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                    .AddEntityFrameworkStores<BikeWatcherIdentityDbContext>();
+                //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                //    .AddEntityFrameworkStores<BikeWatcherIdentityDbContext>();
             });
         }
     }

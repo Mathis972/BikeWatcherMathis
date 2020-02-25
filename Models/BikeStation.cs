@@ -1,5 +1,8 @@
-﻿using System;
+﻿using BikeWatcher.Controllers;
+using BikeWatcher.Utils;
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -9,9 +12,9 @@ using System.Threading.Tasks;
 
 namespace BikeWatcher.Models
 {
-    public class BikeStation
+    public class BikeStation : IComparable
     {
-        private static readonly HttpClient client = new HttpClient();
+        
         public string number { get; set; }
         public string pole { get; set; }
         public string available_bikes { get; set; }
@@ -41,26 +44,38 @@ namespace BikeWatcher.Models
         public string banking { get; set; }
         public string nmarrond { get; set; }
 
-        public static async Task<List<BikeStation>> ProcessBikeStations()
-        {
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/vnd.github.v3+json"));
-            client.DefaultRequestHeaders.Add("User-Agent", ".NET Foundation Repository Reporter");
+        public double distance;
 
-            var streamTask = client.GetStreamAsync("https://download.data.grandlyon.com/ws/rdata/jcd_jcdecaux.jcdvelov/all.json");
-            var deserializedJSON = await JsonSerializer.DeserializeAsync<RootObject>(await streamTask);
-            return deserializedJSON.values;
+        public BikeStation(BikeStationBdx bikeStation)
+        {
+            this.available_bikes = bikeStation.bike_count_total.ToString();
+            this.lng = bikeStation.longitude;
+            this.lat = bikeStation.latitude;
+            this.bike_stands = bikeStation.slot_count.ToString();
+            this.name = bikeStation.name;
         }
+        public BikeStation()
+        {
+
+        }
+
+
+        public int CompareTo(object obj)
+        {
+            BikeStation bikeStation = obj as BikeStation;
+
+            distance = GeoDistanceCalcul.GetDistance(float.Parse(lat, CultureInfo.InvariantCulture), float.Parse(lng, CultureInfo.InvariantCulture), ListeController.lat, ListeController.lon);
+            bikeStation.distance = GeoDistanceCalcul.GetDistance(float.Parse(bikeStation.lat, CultureInfo.InvariantCulture), float.Parse(bikeStation.lng, CultureInfo.InvariantCulture), ListeController.lat, ListeController.lon);
+
+            if (bikeStation.distance == distance)
+                return 0;
+
+            return distance < bikeStation.distance ? -1 : 1;
+        }
+
         public int SortByNumberAscending(string number1, string number2)
         {
-
             return Int32.Parse(number1).CompareTo(Int32.Parse(number2));
         }
-        //public static async task<> getbikestationscoordonates()
-        //{
-        //    var tst = await processbikestations();
-        //    return tst.lat;
-        //}
     }
 }

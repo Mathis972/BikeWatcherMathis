@@ -36,18 +36,18 @@
         var macarte = null;
         var markerClusters;
 
-        var villes = [];// Servira à stocker les groupes de marqueurs
+        var stations = [];// Servira à stocker les groupes de marqueurs
 
-        @foreach(var ville in data)
+        @foreach(var station in data)
         {
             <text>
-        villes.push({
-            "name": "@ville.name",
-            "lat": "@ville.lat",
-            "lon": "@ville.lng",
-            "adresse" : "@ville.address",
-            "available_bikes": "@ville.available_bikes",
-            "available_stands": "@ville.available_bike_stands"
+        stations.push({
+            "name": "@station.name",
+            "lat": "@station.lat",
+            "lon": "@station.lng",
+            "adresse" : "@station.address",
+            "available_bikes": "@station.available_bikes",
+            "available_stands": "@station.available_bike_stands"
         });
             </text>
         };
@@ -69,7 +69,7 @@
 		maxZoom: 20
     }).addTo(macarte);
 	// Nous parcourons la liste des villes
-	for (ville in villes) {
+	for (station in stations) {
 		// Nous définissons l'icône à utiliser pour le marqueur, sa taille affichée (iconSize), sa position (iconAnchor) et le décalage de son ancrage (popupAnchor)
         var myIcon = L.icon({
             iconUrl: 'https://' + window.location.host + "/img/marker.png",
@@ -78,8 +78,8 @@
 			popupAnchor: [-3, -76],
         });
                     
-		var marker = L.marker([villes[ville].lat, villes[ville].lon], { icon: myIcon }); // pas de addTo(macarte), l'affichage sera géré par la bibliothèque des clusters
-        marker.bindPopup(villes[ville].adresse + '<br>Velovs disponibles : ' + villes[ville].available_bikes + '<br>Places disponibles : ' + villes[ville].available_stands);
+		var marker = L.marker([stations[station].lat, stations[station].lon], { icon: myIcon }); // pas de addTo(macarte), l'affichage sera géré par la bibliothèque des clusters
+        marker.bindPopup(stations[station].adresse + '<br>Velovs disponibles : ' + stations[station].available_bikes + '<br>Places disponibles : ' + stations[station].available_stands);
 		markerClusters.addLayer(marker); // Nous ajoutons le marqueur aux groupes
         markers.push(marker); // Nous ajoutons le marqueur à la liste des marqueurs
         
