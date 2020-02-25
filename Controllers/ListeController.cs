@@ -10,14 +10,20 @@ using BikeWatcher.Models;
 using BikeWatcher.Repository;
 using System.Diagnostics;
 using BikeWatcher.Utils;
+using BikeWatcher.Data;
 
 namespace BikeWatcher.Controllers
 {
     public class ListeController : Controller
     {
+        private readonly BikeWatcherContext _context;
         public const float parisLat = 48.8f, parisLon = 2.3f;
         private const string defaultString = "Lyon";
         public static float lat, lon;
+        public ListeController(BikeWatcherContext context)
+        {
+            _context = context;
+        }
         public async Task<IActionResult> Index(float lat = parisLat, float lon = parisLon, string ville = defaultString)
         {
             if (ville == "Lyon")
@@ -37,6 +43,14 @@ namespace BikeWatcher.Controllers
 
             return View();
             
+        }
+        public async Task<IActionResult> AddStationToFav(int id)
+        {
+            var favStation = new Favoris();
+            favStation.IDBikeStation = id;
+            _context.Favoris.Add(favStation);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
     }
 }

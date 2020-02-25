@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using BikeWatcher.Areas.Identity.Data;
+using BikeWatcher.Data;
 
 public class Startup
 {
@@ -18,11 +18,11 @@ public class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddDbContext<BikeWatcherIdentityDbContext>(options =>
+        services.AddDbContext<BikeWatcherContext>(options =>
             options.UseSqlServer(
                 Configuration.GetConnectionString("BikeWatcherIdentityDbContextConnection")));
-        services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-            .AddEntityFrameworkStores<BikeWatcherIdentityDbContext>();
+        //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+        //    .AddEntityFrameworkStores<BikeWatcherContext>();
         services.AddControllersWithViews();
         services.AddRazorPages();
     }

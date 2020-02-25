@@ -53,6 +53,7 @@ namespace BikeWatcher.Models
             this.lat = bikeStation.latitude;
             this.bike_stands = bikeStation.slot_count.ToString();
             this.name = bikeStation.name;
+            this.gid = bikeStation.id.ToString();
         }
         public BikeStation()
         {
