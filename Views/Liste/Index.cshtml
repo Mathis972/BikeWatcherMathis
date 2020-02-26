@@ -4,11 +4,15 @@
 }
 @{
     var data = ViewBag.AllBikeStations;
+    var tst = ViewBag.tst;
 }
-<div class="text-center">
-    <h1 class="display-4">Liste</h1>
-</div>
-<a href="/Liste?ville=Bordeaux">Clique pour les velov de Bordeaux</a>
+    <div class="text-center">
+        <h1 class="display-4">Liste</h1>
+    </div>
+    <div class="container d-flex justify-content-around" style="margin:5px;">
+        <a class="btn btn-danger" href="/Liste?ville=Bordeaux">Bordeaux</a>
+        <a class="btn btn-primary" href="/Liste?ville=Lyon">Lyon</a>
+    </div>
 <div class="container">
     <div class="row row-cols-1 row-cols-md-3">
         @foreach (var bikeStation in data)
@@ -33,10 +37,11 @@
                     lat = position.coords.latitude;
                     lon = position.coords.longitude;
 
-                    if (window.location.search) {
+                    if (window.location.search.match("lat")) {
                         return;
                     } else {
-                        window.location.replace("\Liste?lat=" + lat + "&lon=" + lon);
+                        //window.location.replace("\Liste?lat=" + lat + "&lon=" + lon);
+                        window.location.search += "&lat=" + lat + "&lon=" + lon;
                     }
                 });
             }

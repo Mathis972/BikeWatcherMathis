@@ -52,7 +52,14 @@ namespace BikeWatcher.Models
             this.lng = bikeStation.longitude;
             this.lat = bikeStation.latitude;
             this.bike_stands = bikeStation.slot_count.ToString();
-            this.available_bike_stands = (bikeStation.slot_count - bikeStation.bike_count_total).ToString();
+            var availableBikes = bikeStation.slot_count - bikeStation.bike_count_total;
+            if (availableBikes > 0)
+            {
+                this.available_bike_stands = availableBikes.ToString();
+            } else
+            {
+                this.available_bike_stands = "0";
+            }
             this.name = bikeStation.name;
             this.gid = bikeStation.id.ToString();
         }
