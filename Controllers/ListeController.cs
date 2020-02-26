@@ -37,6 +37,9 @@ namespace BikeWatcher.Controllers
             else if (ville == "Bordeaux")
             {
                 var bikeStations = await RepositoryBikeStations.ProcessBikeStationsBdx("https://api.alexandredubois.com/vcub-backend/vcub.php");
+                ListeController.lat = lat;
+                ListeController.lon = lon;
+                bikeStations.Sort();
                 ViewBag.AllBikeStations = bikeStations;
             }
             return View();

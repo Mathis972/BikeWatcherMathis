@@ -46,7 +46,8 @@
             "lon": "@station.lng",
             "adresse" : "@station.address",
             "available_bikes": "@station.available_bikes",
-            "available_stands": "@station.available_bike_stands"
+            "available_stands": "@station.available_bike_stands",
+            "id" : "@station.gid"
         });
             </text>
         };
@@ -78,7 +79,7 @@
         });
                     
 		var marker = L.marker([stations[station].lat, stations[station].lon], { icon: myIcon }); // pas de addTo(macarte), l'affichage sera géré par la bibliothèque des clusters
-        marker.bindPopup(stations[station].name + '<br>Velovs disponibles : ' + stations[station].available_bikes + '<br>Places disponibles : ' + stations[station].available_stands);
+        marker.bindPopup(stations[station].name + '<br>Velovs disponibles : ' + stations[station].available_bikes + '<br>Places disponibles : ' + stations[station].available_stands + '<br><a class="btn btn-danger" href='+window.location.origin+'/Carte/AddStationToFav/'+stations[station].id+'>Ajouter aux favoris</a>');
 		markerClusters.addLayer(marker); // Nous ajoutons le marqueur aux groupes
         markers.push(marker); // Nous ajoutons le marqueur à la liste des marqueurs
         

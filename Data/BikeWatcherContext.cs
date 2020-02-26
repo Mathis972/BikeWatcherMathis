@@ -14,9 +14,12 @@ namespace BikeWatcher.Data
         }
 
         public DbSet<Favoris> Favoris { get; set; }
+        public DbSet<BrokenBike> BrokenBike { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Favoris>().ToTable("Favori");
+        
+            modelBuilder.Entity<BrokenBike>().ToTable("BrokenBikes");
         }
     }
 }
